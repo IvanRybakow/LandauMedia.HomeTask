@@ -5,18 +5,17 @@ namespace LandauMedia.Hometask.Autocompletion
 {
     public class EmptyAutocmpleteService : InMemoryAutocompleteServiceBase, IAddableAutocompleteService
     {
-        private readonly ITokenService tokenService;
         private readonly ILogger logger;
-
-        public EmptyAutocmpleteService(ITokenService tokenService, ILogger logger)
+        
+        public EmptyAutocmpleteService(ILogger logger)
         {
             this.logger = logger;
-            this.tokenService = tokenService;
         }
         public void AddTextToSource(string text)
         {
-            var tokens = tokenService.GetTokensFromText(text);
+            var tokens = GetTokensFromText(text);
             AddTokensToIndex(tokens);
+            logger.LogInformation($"Added text {text} to index");
         }
     }
 }

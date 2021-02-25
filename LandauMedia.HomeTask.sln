@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandauMedia.Hometask.Abstra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandauMedia.Hometask.Autocompletion", "LandauMedia.Hometask.Autocompletion\LandauMedia.Hometask.Autocompletion.csproj", "{B5F54981-B939-48D7-8A63-A1C5C3712B89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandauMedia.HomeTask.Autocompletion.Tests", "LandauMedia.HomeTask.Autocompletion.Tests\LandauMedia.HomeTask.Autocompletion.Tests.csproj", "{56BBC282-B3D2-4DC7-A36E-767C4472AB31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{B5F54981-B939-48D7-8A63-A1C5C3712B89}.Release|x64.Build.0 = Release|Any CPU
 		{B5F54981-B939-48D7-8A63-A1C5C3712B89}.Release|x86.ActiveCfg = Release|Any CPU
 		{B5F54981-B939-48D7-8A63-A1C5C3712B89}.Release|x86.Build.0 = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|x64.Build.0 = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Debug|x86.Build.0 = Debug|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|x64.ActiveCfg = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|x64.Build.0 = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|x86.ActiveCfg = Release|Any CPU
+		{56BBC282-B3D2-4DC7-A36E-767C4472AB31}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

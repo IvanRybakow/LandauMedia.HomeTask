@@ -9,15 +9,17 @@ namespace LandauMedia.Hometask.Autocompletion
 {
     public abstract class InMemoryAutocompleteServiceBase : IAutoCompleteService
     {
-        private readonly IDictionary<string, IDictionary<string, int>> index = new Dictionary<string, IDictionary<string, int>>();
-        public IEnumerable<(string word, int frequency)> GetNextWords(string word)
+        protected readonly IDictionary<string, IDictionary<string, int>> index = new Dictionary<string, IDictionary<string, int>>();
+        private readonly char[] splitChars = new char[] { ' ', '-', ',', ';', '.', '\t', '\n', '[', ']', '(', ')', '+',
+         '-', '\"', '\'', '!', '?', '\\', '/', '&', '$', '=', '#', '<', '>', ':', '_', '@', '{', '}', '%', '*', '~', '^', '|' };
+        public virtual IEnumerable<(string word, int frequency)> GetNextWords(string word)
         {
             if (word != null && index.TryGetValue(word, out var value))            
                 return value.OrderByDescending(kvp => kvp.Value).Select(kvp => (kvp.Key, kvp.Value));            
             return Enumerable.Empty<(string word, int frequency)>();
         }
 
-        public Task<IEnumerable<(string word, int frequency)>> GetNextWordsAsync(string word)
+        public virtual Task<IEnumerable<(string word, int frequency)>> GetNextWordsAsync(string word)
         {
             if (word != null && index.TryGetValue(word, out var value))            
                 return  Task.FromResult(value.OrderByDescending(kvp => kvp.Value).Select(kvp => (kvp.Key, kvp.Value)));            
@@ -43,6 +45,11 @@ namespace LandauMedia.Hometask.Autocompletion
                     currentToken = token;
                 }
             }
+        }
+        protected IEnumerable<string> GetTokensFromText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return new List<string>();
+            return text.Split(splitChars, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         }
     }
 }
