@@ -1,8 +1,5 @@
 using Xunit;
-using LandauMedia.Hometask.Abstractions;
 using LandauMedia.Hometask.Autocompletion;
-using Moq;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace LandauMedia.HomeTask.Autocompletion.Tests
@@ -10,11 +7,9 @@ namespace LandauMedia.HomeTask.Autocompletion.Tests
     public class EmptyAutocompleteServiceTest
     {
         private readonly EmptyAutocmpleteService service;
-        private readonly Mock<ILogger> loggerMock;
         public EmptyAutocompleteServiceTest()
         {
-            loggerMock = new Mock<ILogger>();
-            service = new EmptyAutocmpleteService(loggerMock.Object);
+            service = new EmptyAutocmpleteService();
         }
         [Fact]
         public void AddTextToSource_WithOneInput_GetNextWords_ReturnsValidResult()
@@ -31,7 +26,6 @@ namespace LandauMedia.HomeTask.Autocompletion.Tests
             Assert.Contains(("Beispieltext", 1), firstRequest);
             Assert.Contains(("Problem", 1), firstRequest);
             Assert.Contains(("ein", 1), secondRequest);
-            loggerMock.Verify(l => l.LogInformation(It.IsAny<string>()), Times.Once);
         }
         [Fact]
         public void AddTextToSource_DoubleCall_GetNextWords_ReturnsValidResult()
@@ -49,7 +43,6 @@ namespace LandauMedia.HomeTask.Autocompletion.Tests
             Assert.Contains(("Problem", 1), firstRequest);
             Assert.Contains(("ein", 1), secondRequest);
             Assert.Contains(("noch", 1), secondRequest);
-            loggerMock.Verify(l => l.LogInformation(It.IsAny<string>()), Times.Exactly(2));
         }
         [Fact]
         public void GetNextWords_WithoutAddedText_ReturnsEmptyCollection()
@@ -60,7 +53,6 @@ namespace LandauMedia.HomeTask.Autocompletion.Tests
             var request = service.GetNextWords("ein").ToList();
             //Then
             Assert.Empty(request);
-            loggerMock.Verify(l => l.LogInformation(It.IsAny<string>()), Times.Never);
         }
     }
     
