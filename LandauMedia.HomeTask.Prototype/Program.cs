@@ -44,6 +44,7 @@ namespace LandauMedia.HomeTask.Prototype
             collection.AddSingleton<IConfig>(config);
             collection.AddSingleton<IAutoCompleteService, XmlBasedAutocompleteService>();
             collection.AddScoped<IFileSystem, FileSystem>();
+            collection.AddSingleton<ICacheProvider, FileBasedCacheProvider>();
 
             return collection.BuildServiceProvider();
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,18 +13,18 @@ namespace LandauMedia.Hometask.Autocompletion
          '-', '\"', '\'', '!', '?', '\\', '/', '&', '$', '=', '#', '<', '>', ':', '_', '@', '{', '}', '%', '*', '~', '^', '|' };
         public virtual IEnumerable<(string word, int frequency)> GetNextWords(string word)
         {
-            if (word != null && index.TryGetValue(word, out var value))            
+            if (word != null && index.TryGetValue(word.ToLower(), out var value))            
                 return value.OrderByDescending(kvp => kvp.Value).Select(kvp => (kvp.Key, kvp.Value));            
             return Enumerable.Empty<(string word, int frequency)>();
         }
 
         public virtual Task<IEnumerable<(string word, int frequency)>> GetNextWordsAsync(string word)
         {
-            if (word != null && index.TryGetValue(word, out var value))            
+            if (word != null && index.TryGetValue(word.ToLower(), out var value))            
                 return Task.FromResult(value.OrderByDescending(kvp => kvp.Value).Select(kvp => (kvp.Key, kvp.Value)));            
-            return Task.FromResult<IEnumerable<(string word, int frequency)>>(Enumerable.Empty<(string word, int frequency)>());
+            return Task.FromResult(Enumerable.Empty<(string word, int frequency)>());
         }
-
+        
         protected void AddTokensToIndex(IEnumerable<string> tokenList)
         {
             string currentToken = null;
@@ -49,10 +48,30 @@ namespace LandauMedia.Hometask.Autocompletion
                 }
             }
         }
+
+        protected void MergeIndex(IDictionary<string, IDictionary<string, int>> ind)
+        {
+            foreach (var kvp in ind)
+            {
+                if (!index.TryAdd(kvp.Key, kvp.Value))
+                {
+                    var internalDict = index[kvp.Key];
+                    foreach (var internalKvp in kvp.Value)
+                    {
+                        if (!internalDict.TryAdd(internalKvp.Key, internalKvp.Value))
+                        {
+                            internalDict[internalKvp.Key] += internalKvp.Value;
+                        }
+                    }
+                }
+            }
+        }
+
         protected IEnumerable<string> GetTokensFromText(string text)
         {
             if (string.IsNullOrEmpty(text)) return new List<string>();
-                return text.Split(splitChars, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                return text.Split(splitChars, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(w => w.ToLower());
         }
     }
 }
