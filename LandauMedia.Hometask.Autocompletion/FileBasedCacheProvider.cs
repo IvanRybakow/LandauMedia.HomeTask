@@ -11,6 +11,7 @@ namespace LandauMedia.Hometask.Autocompletion
     {
         private readonly IFileSystem fs;
         private readonly IConfig config;
+        private string CacheFolderName => string.Concat(config.PathToFilesFolder, "\\", "cache");
         public FileBasedCacheProvider(IFileSystem fs, IConfig config)
         {
             this.config = config;
@@ -18,7 +19,11 @@ namespace LandauMedia.Hometask.Autocompletion
         }
         public void CacheIndex(IEnumerable<string> filesToCache, IDictionary<string, IDictionary<string, int>> index)
         {
-            string cacheFileName = string.Concat(config.PathToCacheFolder, "\\", "cache.json");
+            if (!fs.Directory.Exists(CacheFolderName))
+            {
+                fs.Directory.CreateDirectory(CacheFolderName);
+            }
+            string cacheFileName = string.Concat(CacheFolderName, "\\", "cache.json");
             var indexToCache = new CachedIndex()
             {
                 Meta = filesToCache.ToDictionary(file => file, file => fs.File.GetLastWriteTime(file)),
@@ -29,7 +34,7 @@ namespace LandauMedia.Hometask.Autocompletion
 
         public bool TryGetCachedIndex(IEnumerable<string> filesToCache, out IDictionary<string, IDictionary<string, int>> index)
         {
-            string cacheFileName = string.Concat(config.PathToCacheFolder, "\\", "cache.json");
+            string cacheFileName = string.Concat(CacheFolderName, "\\", "cache.json");
             if (!fs.File.Exists(cacheFileName))
             {
                 index = null;

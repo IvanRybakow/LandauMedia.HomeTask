@@ -1,0 +1,65 @@
+@page "/"
+
+@using LandauMedia.Hometask.Abstractions
+@inject IAutoCompleteService autoCompleteService
+
+<h1>Wort suchen</h1>
+
+<p>
+    <label>Wort: <input @bind="searchWord" @bind:event ="oninput" @onkeypress="OnEnter"></label>    
+    <button @onclick="async (e) => await OnSearch()">Suchen</button>    
+</p>
+<p>
+    <label>Alles laden: <input type="checkbox" @bind="loadAll" /></label>
+</p>
+
+@if (words == null)
+{
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Wort</th>
+                <th>Heufigkeit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var word in words)
+            {
+                <tr>
+                    <td>@word.word</td>
+                    <td>@word.frequency</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string searchWord;
+    private bool loadAll;
+    private IEnumerable<(string word, int frequency)> words;
+    private async Task OnSearch()
+    {
+        if (loadAll)
+        {
+            words = await autoCompleteService.GetNextWordsAsync(searchWord);
+        }
+        else
+        {
+            words = await autoCompleteService.GetNextWordsAsync(searchWord, 100);
+        }
+    }
+
+    private async Task OnEnter (KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter")
+        {
+            await OnSearch();
+        }
+    }
+
+}

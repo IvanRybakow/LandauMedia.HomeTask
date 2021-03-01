@@ -1,8 +1,8 @@
 using LandauMedia.Hometask.Abstractions;
 
-namespace LandauMedia.HomeTask.Prototype
+namespace LandauMedia.HomeTask.WebLibraryClient
 {
-    public class Config : IConfig
+    internal class Config : IConfig
     {
         public string PathToFilesFolder { get; set;}
 

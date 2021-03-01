@@ -19,12 +19,20 @@ namespace LandauMedia.Hometask.Autocompletion
         }
 
         public virtual Task<IEnumerable<(string word, int frequency)>> GetNextWordsAsync(string word)
-        {
-            if (word != null && index.TryGetValue(word.ToLower(), out var value))            
-                return Task.FromResult(value.OrderByDescending(kvp => kvp.Value).Select(kvp => (kvp.Key, kvp.Value)));            
-            return Task.FromResult(Enumerable.Empty<(string word, int frequency)>());
+        {        
+            return Task.FromResult(GetNextWords(word));
         }
-        
+
+        public Task<IEnumerable<(string word, int frequency)>> GetNextWordsAsync(string word, int limit)
+        {
+            return Task.FromResult(GetNextWords(word, limit));
+        }
+
+        public IEnumerable<(string word, int frequency)> GetNextWords(string word, int limit)
+        {
+            return GetNextWords(word).Take(limit);
+        }
+
         protected void AddTokensToIndex(IEnumerable<string> tokenList)
         {
             string currentToken = null;
@@ -73,5 +81,6 @@ namespace LandauMedia.Hometask.Autocompletion
                 return text.Split(splitChars, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Select(w => w.ToLower());
         }
+
     }
 }
