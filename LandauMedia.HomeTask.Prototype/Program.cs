@@ -43,7 +43,7 @@ namespace LandauMedia.HomeTask.Prototype
             IServiceCollection collection = new ServiceCollection();
             collection.AddSingleton<IConfig>(config);
             collection.AddSingleton<IAutoCompleteService, XmlBasedAutocompleteService>();
-            collection.AddScoped<IFileSystem, FileSystem>();
+            collection.AddSingleton<IFileSystem, FileSystem>();
             collection.AddSingleton<ICacheProvider, FileBasedCacheProvider>();
 
             return collection.BuildServiceProvider();

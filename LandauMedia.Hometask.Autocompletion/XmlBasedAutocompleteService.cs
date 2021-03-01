@@ -29,13 +29,15 @@ namespace LandauMedia.Hometask.Autocompletion
             {
                 foreach (var xmlFile in files)
                 {
-                    System.IO.Stream fileStream = fileSystem.File.OpenRead(xmlFile);
-                    XDocument document = XDocument.Load(fileStream);
-                    var elements = document.Descendants("text");
-                    foreach (var element in elements)  
+                    using (System.IO.Stream fileStream = fileSystem.File.OpenRead(xmlFile))
                     {
-                        AddTokensToIndex(GetTokensFromText(element.Value));            
-                    }      
+                        XDocument document = XDocument.Load(fileStream);
+                        var elements = document.Descendants("text");
+                        foreach (var element in elements)  
+                        {
+                            AddTokensToIndex(GetTokensFromText(element.Value));            
+                        }      
+                    }                    
                 }
                 cacheProvider.CacheIndex(files, index);
             }
