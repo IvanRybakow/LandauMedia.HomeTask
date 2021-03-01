@@ -30,7 +30,7 @@ namespace LandauMedia.HomeTask.Prototype
                 }
                 else
                     Console.WriteLine("No matches");
-                
+                Console.WriteLine("Please enter the word to search in text, type \"exit\" to exit the program");
                 word = Console.ReadLine();
             }           
         }
@@ -42,7 +42,7 @@ namespace LandauMedia.HomeTask.Prototype
 
             IServiceCollection collection = new ServiceCollection();
             collection.AddSingleton<IConfig>(config);
-            collection.AddSingleton<IAutoCompleteService, XmlBasedAutocompleteService>();
+            collection.AddSingleton<IAutoCompleteService, EmptyAutocmpleteService>();
             collection.AddSingleton<IFileSystem, FileSystem>();
             collection.AddSingleton<ICacheProvider, FileBasedCacheProvider>();
 
